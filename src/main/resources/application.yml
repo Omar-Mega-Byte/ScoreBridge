@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: credit_score_sys
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  main:
+    banner-mode: off # removes the Spring banner
+  output:
+    ansi:
+      enabled: always # enable colors in logs
+
+logging:
+  level:
+    root: INFO # default log level
+    org.springframework: INFO
+    org.hibernate.SQL: OFF
+    org.hibernate.type.descriptor.sql.BasicBinder: OFF
+  pattern:
+    console: "%d{HH:mm:ss} %-5level %logger{36} - %msg%n"
