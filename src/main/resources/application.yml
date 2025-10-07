@@ -30,3 +30,30 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: OFF
   pattern:
     console: "%d{HH:mm:ss} %-5level %logger{36} - %msg%n"
+
+# JWT Configuration
+jwt:
+  secret: "7c3309bf8454a00d026334252b6dd59ab3a67aa88c1b60b3350761cbcc8313741a16ed4e"
+  expiration: 86400000 # 24 hours in milliseconds
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+    display-operation-id: false
+    show-extensions: true
+    show-common-extensions: true
+    deep-linking: true
+    disable-swagger-default-url: true
+  show-actuator: false
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  cache:
+    disabled: false
