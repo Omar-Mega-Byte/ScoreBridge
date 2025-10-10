@@ -1,5 +1,6 @@
 package com.scorebridge.credit_score_sys.modules.user.config;
 
+import com.scorebridge.credit_score_sys.modules.user.service.TokenBlacklistService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ import java.io.IOException;
 /**
  * JWT authentication filter that processes incoming requests.
  * Extracts and validates JWT tokens from the Authorization header,
- * and sets the authentication in the Spring Security context.
+ * checks if the token is blacklisted, and sets the authentication in the Spring Security context.
  *
  * @author ScoreBridge Team
  * @version 1.0
@@ -33,6 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
+    private final TokenBlacklistService tokenBlacklistService;
 
     /**
      * Filters each HTTP request to validate JWT tokens and set authentication.
@@ -65,6 +67,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
 
         try {
+            // Check if token is blacklisted (user has logged out)
+            if (tokenBlacklistService.isTokenBlacklisted(jwt)) {
+                log.warn("Attempted to use blacklisted token");
+                filterChain.doFilter(request, response);
+                return;
+            }
+
             userEmail = jwtUtil.extractUsername(jwt);
 
             // If username is extracted and no authentication is set in context
