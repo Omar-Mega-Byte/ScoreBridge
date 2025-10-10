@@ -107,4 +107,23 @@ public class AuthController {
                 boolean isValid = authService.validateToken(authHeader);
                 return ResponseEntity.ok(ApiResponse.success("Token validation result", isValid));
         }
+
+        /**
+         * Logs out a user by invalidating their JWT token.
+         *
+         * @param authHeader the authorization header containing the Bearer token
+         * @return ResponseEntity indicating successful logout
+         */
+        @Operation(summary = "Logout user", description = "Logs out the user by blacklisting their JWT token, making it invalid for future requests")
+        @ApiResponses(value = {
+                        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Logout successful", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class), examples = @ExampleObject(value = "{\"success\":true,\"message\":\"Logout successful\",\"data\":null}"))),
+                        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Invalid or expired token", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class)))
+        })
+        @SecurityRequirement(name = "bearerAuth")
+        @PostMapping("/logout")
+        public ResponseEntity<ApiResponse<Void>> logout(
+                        @Parameter(description = "JWT token in Bearer format", required = true, example = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...") @RequestHeader("Authorization") String authHeader) {
+                authService.logoutUser(authHeader);
+                return ResponseEntity.ok(ApiResponse.success("Logout successful", null));
+        }
 }
