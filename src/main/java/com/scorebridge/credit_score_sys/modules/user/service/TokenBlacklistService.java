@@ -16,7 +16,8 @@ import java.util.Date;
 
 /**
  * Service class for managing JWT token blacklisting.
- * Handles adding tokens to the blacklist and checking if tokens are blacklisted.
+ * Handles adding tokens to the blacklist and checking if tokens are
+ * blacklisted.
  *
  * @author ScoreBridge Team
  * @version 1.0
