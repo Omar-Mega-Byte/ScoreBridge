@@ -21,7 +21,8 @@ import java.io.IOException;
 /**
  * JWT authentication filter that processes incoming requests.
  * Extracts and validates JWT tokens from the Authorization header,
- * checks if the token is blacklisted, and sets the authentication in the Spring Security context.
+ * checks if the token is blacklisted, and sets the authentication in the Spring
+ * Security context.
  *
  * @author ScoreBridge Team
  * @version 1.0
