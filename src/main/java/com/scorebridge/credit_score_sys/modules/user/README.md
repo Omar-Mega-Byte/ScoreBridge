@@ -23,18 +23,22 @@ user/
 │   ├── LoginRequest.java
 │   └── RegisterRequest.java
 ├── exception/
+│   ├── GlobalExceptionHandler.java
 │   ├── InvalidCredentialsException.java
 │   ├── InvalidTokenException.java
 │   ├── UserAlreadyExistsException.java
 │   ├── UserNotFoundException.java
 │   └── ValidationException.java
 ├── model/
+│   ├── TokenBlacklist.java
 │   └── User.java
 ├── repository/
+│   ├── TokenBlacklistRepository.java
 │   └── UserRepository.java
 ├── service/
 │   ├── AuthService.java
-│   └── CustomUserDetailsService.java
+│   ├── CustomUserDetailsService.java
+│   └── TokenBlacklistService.java
 └── validation/
     └── UserValidation.java
 ```
@@ -65,6 +69,8 @@ user/
 - **Access tokens** with 24-hour validity
 - **Token refresh** without re-entering credentials
 - **Token validation** endpoint for client-side checks
+- **Token blacklisting** for secure logout
+- **Automatic cleanup** of expired blacklisted tokens
 - **User information extraction** from tokens
 
 ### 5. Input Validation
@@ -160,7 +166,7 @@ Authorization: Bearer {token}
 
 ### Validate Token
 ```http
-POST /api/auth/validate
+GET /api/auth/validate
 Authorization: Bearer {token}
 ```
 
@@ -168,7 +174,22 @@ Authorization: Bearer {token}
 ```json
 {
   "success": true,
-  "message": "Token is valid",
+  "message": "Token validation result",
+  "data": true
+}
+```
+
+### Logout
+```http
+POST /api/auth/logout
+Authorization: Bearer {token}
+```
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "message": "Logout successful",
   "data": null
 }
 ```
@@ -247,6 +268,22 @@ All endpoints under `/api/data/**`, `/api/scoring/**`, and `/api/reports/**` req
 - Unique index on `email`
 - Index on `email` for faster lookups
 
+### token_blacklist Table
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| id | BIGINT | PRIMARY KEY, AUTO_INCREMENT | Unique identifier |
+| token | VARCHAR(1000) | UNIQUE, NOT NULL | Blacklisted JWT token |
+| user_id | BIGINT | NOT NULL | User ID who owns the token |
+| user_email | VARCHAR(255) | NOT NULL | User's email for reference |
+| expiry_date | TIMESTAMP | NOT NULL | Token expiration date |
+| blacklisted_at | TIMESTAMP | NOT NULL | When token was blacklisted |
+
+**Indexes:**
+- Primary key on `id`
+- Unique index on `token`
+- Index on `token` for fast blacklist checks
+- Index on `expiry_date` for cleanup operations
+
 ## Error Handling
 
 ### Exception Types
@@ -306,7 +343,12 @@ All endpoints under `/api/data/**`, `/api/scoring/**`, and `/api/reports/**` req
    - Use token for all API calls
    - Token automatically validated by `JwtAuthenticationFilter`
 
-3. **Handle Token Expiration**
+3. **Logout** via `POST /api/auth/logout`
+   - Send current JWT token in Authorization header
+   - Token is blacklisted and cannot be reused
+   - Client should clear stored token
+
+4. **Handle Token Expiration**
    - Client should handle 401 responses
    - Redirect to login or use refresh token
 
@@ -380,8 +422,9 @@ spring:
 
 3. **Token Management**
    - Keep token expiration reasonable (24 hours recommended)
-   - Implement token blacklisting for logout
+   - Token blacklisting implemented for secure logout
    - Use refresh tokens for long-lived sessions
+   - Automatic cleanup of expired tokens (daily at 2:00 AM)
 
 4. **HTTPS**
    - Always use HTTPS in production
@@ -450,6 +493,55 @@ spring:
 ### Issue: CORS errors in browser
 **Solution**: Check CORS configuration in `SecurityConfig.java` allows your frontend origin
 
+## Logout Functionality
+
+### How It Works
+
+The logout functionality is implemented using a **token blacklist** approach:
+
+1. **User logs out** by calling `POST /api/auth/logout` with their JWT token
+2. **Token is added to blacklist** database table with expiration date
+3. **All subsequent requests** with that token are rejected by `JwtAuthenticationFilter`
+4. **Expired tokens are cleaned up** automatically every day at 2:00 AM
+
+### Token Blacklist Process
+
+```
+User Logout Request
+     ↓
+Extract JWT Token
+     ↓
+Validate Token (must be valid to blacklist)
+     ↓
+Add to token_blacklist Table
+     ↓
+Return Success Response
+     ↓
+Future Requests with Token
+     ↓
+JwtAuthenticationFilter Checks Blacklist
+     ↓
+Token Found in Blacklist → Request Denied (401)
+```
+
+### Automatic Cleanup
+
+The system automatically removes expired tokens from the blacklist:
+- **Scheduled Task**: Runs daily at 2:00 AM
+- **Purpose**: Keep database size manageable
+- **Safety**: Only removes tokens that are already expired (can't be used anyway)
+- **Logging**: Records number of tokens cleaned up
+
+### Manual Cleanup
+
+For administrative purposes, expired tokens can be manually cleaned:
+```java
+@Autowired
+private TokenBlacklistService tokenBlacklistService;
+
+int cleanedCount = tokenBlacklistService.forceCleanup();
+```
+
 ## Future Enhancements
 
 - [ ] Email verification for new accounts
@@ -460,8 +552,10 @@ spring:
 - [ ] Password change functionality
 - [ ] User profile management
 - [ ] Remember me functionality
-- [ ] Session management and logout
+- [x] ~~Session management and logout~~ ✅ **Implemented**
 - [ ] Audit logging for security events
+- [ ] "Logout from all devices" functionality
+- [ ] Token revocation admin panel
 
 ## Development Guidelines
 
