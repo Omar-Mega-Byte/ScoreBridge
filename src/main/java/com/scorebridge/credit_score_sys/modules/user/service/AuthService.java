@@ -43,6 +43,7 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
     private final UserValidation userValidation;
+    private final TokenBlacklistService tokenBlacklistService;
 
     /**
      * Registers a new user in the system.
@@ -183,6 +184,42 @@ public class AuthService {
             log.error("Token validation error", e);
             return false;
         }
+    }
+
+    /**
+     * Logs out a user by blacklisting their JWT token.
+     * Once blacklisted, the token cannot be used for authentication.
+     *
+     * @param authHeader the authorization header containing the Bearer token
+     * @throws InvalidTokenException if the token is invalid or already blacklisted
+     */
+    @Transactional
+    public void logoutUser(String authHeader) {
+        log.info("Attempting to logout user");
+
+        // Extract and validate token
+        String token = userValidation.extractToken(authHeader);
+
+        if (!jwtUtil.validateToken(token)) {
+            log.warn("Logout failed: Invalid or expired token");
+            throw new InvalidTokenException("Invalid or expired token");
+        }
+
+        // Check if token is already blacklisted
+        if (tokenBlacklistService.isTokenBlacklisted(token)) {
+            log.warn("Logout failed: Token already blacklisted");
+            throw new InvalidTokenException("Token is already invalidated");
+        }
+
+        // Extract username and get user
+        String username = jwtUtil.extractUsername(token);
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new InvalidTokenException("User not found for token"));
+
+        // Blacklist the token
+        tokenBlacklistService.blacklistToken(token, user);
+
+        log.info("User logged out successfully: {}", user.getEmail());
     }
 
     /**
