@@ -1,10 +1,29 @@
-HELP.md
+##############################
+## ScoreBridge Project
+## Full-Stack: Spring Boot + React + Python ML
+##############################
+
+##############################
+## Java / Spring Boot / Maven
+##############################
+
+### Build Output ###
 target/
-.mvn/wrapper/maven-wrapper.jar
+build/
 !**/src/main/**/target/
 !**/src/test/**/target/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-### STS ###
+### Maven Wrapper ###
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+
+### Spring Boot ###
+HELP.md
+spring-shell.log
+
+### STS (Spring Tool Suite) ###
 .apt_generated
 .classpath
 .factorypath
@@ -14,10 +33,11 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
+out/
 
 ### NetBeans ###
 /nbproject/private/
@@ -25,9 +45,259 @@ target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+.recommenders
 
 ### VS Code ###
 .vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+##############################
+## Database Files (H2)
+##############################
+
+### H2 Database ###
+*.db
+*.trace.db
+*.lock.db
+*.mv.db
+h2/
+data/
+
+##############################
+## Frontend / Node.js / React
+##############################
+
+### Dependencies ###
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+
+### Build Output ###
+frontend/dist/
+frontend/dist-ssr/
+frontend/build/
+frontend/.next/
+frontend/out/
+
+### Environment Variables ###
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+### Vite ###
+frontend/.vite/
+frontend/vite.config.js.timestamp-*
+frontend/vite.config.ts.timestamp-*
+
+### Testing ###
+frontend/coverage/
+frontend/.nyc_output/
+
+### Logs ###
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/lerna-debug.log*
+frontend/pnpm-debug.log*
+
+### Misc ###
+frontend/.DS_Store
+frontend/*.local
+frontend/.eslintcache
+
+##############################
+## Python / ML Service
+##############################
+
+### Python Cache ###
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+### Virtual Environments ###
+ml_service/venv/
+ml_service/env/
+ml_service/ENV/
+ml_service/.venv/
+ml_service/.env/
+
+### Python Distribution / Packaging ###
+ml_service/dist/
+ml_service/build/
+ml_service/*.egg-info/
+ml_service/.eggs/
+ml_service/.Python
+
+### Jupyter Notebook ###
+ml_service/.ipynb_checkpoints/
+ml_service/*.ipynb_checkpoints
+
+### PyCharm ###
+ml_service/.idea/
+
+### Trained Models (Keep, but ignore backups) ###
+# ml_service/model/*.pkl  # Uncomment to ignore trained models
+ml_service/model/*.bak
+ml_service/model/*.old
+
+### ML Training Data (if large) ###
+# ml_service/data/  # Uncomment if you have large datasets
+ml_service/*.csv.bak
+ml_service/*.csv.old
+
+### Python Environment ###
+ml_service/.env
+ml_service/.env.local
+ml_service/pip-log.txt
+ml_service/pip-delete-this-directory.txt
+
+### Testing ###
+ml_service/.pytest_cache/
+ml_service/.coverage
+ml_service/htmlcov/
+ml_service/.tox/
+ml_service/nosetests.xml
+ml_service/coverage.xml
+
+##############################
+## Operating System Files
+##############################
+
+### Windows ###
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+### Linux ###
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+##############################
+## Security & Credentials
+##############################
+
+### API Keys & Secrets ###
+*.key
+*.pem
+*.p12
+*.jks
+secrets/
+credentials/
+.credentials/
+
+### Environment Files ###
+.env
+.env.local
+.env.*.local
+application-local.yml
+application-local.yaml
+application-local.properties
+
+##############################
+## IDE & Editor Files
+##############################
+
+### General ###
+*.log
+*.tmp
+*.temp
+*.cache
+*.swp
+*.swo
+*~
+
+### Sublime Text ###
+*.sublime-workspace
+*.sublime-project
+
+### Vim ###
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+### Emacs ###
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+
+##############################
+## Documentation Backups
+##############################
+
+### Backup Files ###
+*.bak
+*.backup
+*.old
+*~
+
+##############################
+## Test Data (Optional)
+##############################
+
+### Test Files ###
+# test_data/  # Uncomment if you want to ignore test data
+test_data/*.bak
+test_data/*.tmp
+
+##############################
+## Deployment Files
+##############################
+
+### Docker ###
+# docker-compose.override.yml  # Uncomment if using Docker
+
+### Kubernetes ###
+# k8s/secrets/  # Uncomment if using Kubernetes
+
+##############################
+## Custom Project Files
+##############################
+
+### Batch Scripts Logs ###
+*.bat.log
+
+### Documentation Drafts ###
+# docs/drafts/  # Uncomment if you have draft docs
+
+### Temporary Notes ###
+TODO.txt
+NOTES.txt
+scratch.txt
