@@ -1,5 +1,6 @@
 package com.scorebridge.credit_score_sys.modules.user.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +40,9 @@ public class SecurityConfig {
 
         private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+        @Value("${cors.allowed-origins:http://localhost:3000,http://localhost:5173}")
+        private String allowedOrigins;
+
         /**
          * Configures the security filter chain for HTTP requests.
          * Sets up JWT authentication, CORS, CSRF protection, session management, and
@@ -67,6 +71,8 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/api/auth/**",
                                                                 "/api/public/**",
+                                                                "/api/score/**", // Scoring endpoints (support anonymous
+                                                                                 // + authenticated)
                                                                 "/h2-console/**",
                                                                 "/actuator/health",
                                                                 "/swagger-ui/**",
@@ -113,7 +119,7 @@ public class SecurityConfig {
 
         /**
          * Configures CORS (Cross-Origin Resource Sharing) settings for the application.
-         * Allows requests from any origin in development mode.
+         * Reads allowed origins from environment variable (cors.allowed-origins).
          *
          * @return the CorsConfigurationSource bean
          */
@@ -121,8 +127,9 @@ public class SecurityConfig {
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration configuration = new CorsConfiguration();
 
-                // Allow specific origins in production, * for development
-                configuration.setAllowedOriginPatterns(List.of("*"));
+                // Parse allowed origins from environment variable (comma-separated)
+                List<String> origins = Arrays.asList(allowedOrigins.split(","));
+                configuration.setAllowedOrigins(origins);
 
                 // Allow common HTTP methods
                 configuration.setAllowedMethods(Arrays.asList(
