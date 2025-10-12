@@ -1,0 +1,18 @@
+{
+  "age": 35,
+  "annualIncome": 75000.0,
+  "monthlySalary": 5500.0,
+  "monthlyBalance": 8000.0,
+  "numBankAccounts": 4,
+  "numCreditCards": 3,
+  "interestRate": 4.2,
+  "numLoans": 1,
+  "delayFromDueDate": 0,
+  "numDelayedPayments": 0,
+  "numCreditInquiries": 2,
+  "creditUtilizationRatio": 15.0,
+  "creditHistoryAgeMonths": 120,
+  "totalEmiPerMonth": 800.0,
+  "amountInvestedMonthly": 1000.0,
+  "outstandingDebt": 10000.0
+}
