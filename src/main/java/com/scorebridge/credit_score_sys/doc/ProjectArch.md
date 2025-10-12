@@ -35,7 +35,6 @@ scorebridge-backend/
                     ├── user/
                     ├── data_ingestion/
                     ├── scoring/
-                    ├── report/
                     └── common/
 ```
 
@@ -120,25 +119,26 @@ scoring/
 
 ---
 
-### 4. Report Module
+### 4. Common Module
 
-**Description**: This module generates a detailed, human-readable report after a score has been calculated and saved for a registered user, providing transparency into the results.
+**Description**: This module contains shared utilities, configurations, and common functionality used across all other modules. It ensures code reusability and maintains consistent behavior throughout the application.
 
 ```
-report/
-├── controller/
-│   └── ReportController.java       # Defines API endpoints to retrieve a user's saved credit reports.
-├── dto/
-│   └── CreditReportResponse.java   # DTO that structures the complete credit report for display.
+common/
+├── config/
+│   └── GlobalConfig.java           # Application-wide configuration settings.
 ├── exception/
-│   └── ReportNotFoundException.java  # Custom exception for when a client requests a report that does not exist.
-├── model/
-│   └── CreditReport.java         # JPA entity mapping to the `credit_reports` table.
-├── repository/
-│   └── CreditReportRepository.java   # JPA repository for all database operations on the CreditReport entity.
-└── service/
-    └── ReportService.java        # Contains the business logic for generating a new report from a saved score.
+│   ├── GlobalExceptionHandler.java # Centralized exception handling for all modules.
+│   └── BusinessException.java      # Base exception class for business logic errors.
+├── util/
+│   ├── DateUtils.java             # Date formatting and manipulation utilities.
+│   ├── ValidationUtils.java       # Common validation helper methods.
+│   └── ResponseBuilder.java       # Standardized API response builder.
+└── dto/
+    └── ApiResponse.java           # Generic DTO for consistent API responses.
 ```
+
+---
 
 ### Database Schema and Tables
 
@@ -200,14 +200,82 @@ Stores the calculated ScoreBridge Index (SBI) for each registered user over time
 | `model_version`| `VARCHAR(50)` |                                 | Version of the ML model used.                                |
 | `calculated_at`| `TIMESTAMP`   | `NOT NULL`                      | Timestamp when the score was calculated.                     |
 
-#### `credit_reports`
-Stores metadata and a reference to the generated credit report for registered users.
+---
 
-| Column Name   | Data Type     | Constraints                     | Description                                                |
-| :------------ | :------------ | :------------------------------ | :--------------------------------------------------------- |
-| `id`          | `BIGINT`      | `PRIMARY KEY`, `AUTO_INCREMENT` | Unique identifier for the report.                          |
-| `user_id`     | `BIGINT`      | `FOREIGN KEY (users.id)`        | Links to the user.                                         |
-| `score_id`    | `BIGINT`      | `FOREIGN KEY (credit_scores.id)`| Links to the specific score this report details.           |
-| `report_uuid` | `VARCHAR(36)` | `UNIQUE`, `NOT NULL`            | Publicly accessible identifier for the report.             |
-| `summary`     | `TEXT`        |                                 | A brief summary of the user's financial standing.          |
-| `generated_at`| `TIMESTAMP`   | `NOT NULL`                      | Timestamp when the report was generated.                   |
+### API Endpoints Summary
+
+#### User Module Endpoints
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Authenticate and receive JWT token
+- `GET /api/auth/profile` - Get current user profile (requires authentication)
+- `POST /api/auth/logout` - Logout and invalidate token
+
+#### Data Ingestion Module Endpoints
+- `POST /api/data/profile` - Save financial profile for authenticated user
+- `GET /api/data/accounts` - Retrieve user's financial accounts
+- `GET /api/data/transactions` - Retrieve user's transaction history
+
+#### Scoring Module Endpoints
+- `POST /api/score/calculate` - Calculate SBI score (with or without authentication)
+- `GET /api/score/history` - Get user's score calculation history (requires authentication)
+- `GET /api/score/latest` - Get user's most recent score (requires authentication)
+
+---
+
+### Machine Learning Integration
+
+The scoring module communicates with a separate Python-based ML service running on Flask. The ML service:
+
+1. **Receives** raw financial data from the Spring Boot backend
+2. **Performs** feature engineering and data preprocessing
+3. **Applies** the trained logistic regression model
+4. **Returns** the calculated SBI score and component values
+
+**ML Model Architecture:**
+- Algorithm: Logistic Regression with optimized weights
+- Features: 20+ engineered financial behavior metrics
+- Training Data: Synthetic dataset based on financial best practices
+- Model Version: Tracked in database for reproducibility
+
+**Communication Flow:**
+```
+Spring Boot (ScoringService) 
+    → HTTP POST request to Flask ML API
+    → Flask processes data and runs model
+    → Returns JSON with score and components
+    → Spring Boot stores result and returns to frontend
+```
+
+---
+
+### Security Considerations
+
+1. **Authentication**: JWT-based stateless authentication
+2. **Password Storage**: Bcrypt hashing with salt
+3. **Input Validation**: Bean Validation on all DTOs
+4. **SQL Injection Protection**: JPA with parameterized queries
+5. **CORS Configuration**: Restricted to frontend origin only
+6. **API Rate Limiting**: Future enhancement for production
+
+---
+
+### Deployment Notes
+
+**⚠️ HACKATHON CONFIGURATION - NOT PRODUCTION READY**
+
+This application uses an **in-memory H2 database** suitable only for:
+- Local development
+- Hackathon demonstrations
+- Quick prototyping
+
+**For Production Deployment:**
+1. Replace H2 with PostgreSQL or MySQL
+2. Implement proper environment-based configuration
+3. Add API rate limiting and monitoring
+4. Set up centralized logging (ELK stack)
+5. Configure SSL/TLS for all endpoints
+6. Implement database migrations (Flyway/Liquibase)
+7. Add comprehensive integration tests
+8. Set up CI/CD pipeline (GitHub Actions, Jenkins)
+9. Containerize with Docker and orchestrate with Kubernetes
+10. Implement backup and disaster recovery procedures
