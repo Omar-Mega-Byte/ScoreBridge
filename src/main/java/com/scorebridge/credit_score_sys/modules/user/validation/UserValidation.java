@@ -115,13 +115,23 @@ public class UserValidation {
             throw new ValidationException("Registration request cannot be null");
         }
 
-        if (isNullOrBlank(request.getName())) {
-            throw new ValidationException("Name is required");
+        if (isNullOrBlank(request.getFirstName())) {
+            throw new ValidationException("First name is required");
         }
 
-        if (!isValidName(request.getName())) {
+        if (!isValidName(request.getFirstName())) {
             throw new ValidationException(
-                    String.format("Invalid name. Must be %d-%d characters, letters and spaces only.",
+                    String.format("Invalid first name. Must be %d-%d characters, letters and spaces only.",
+                            MIN_NAME_LENGTH, MAX_NAME_LENGTH));
+        }
+
+        if (isNullOrBlank(request.getLastName())) {
+            throw new ValidationException("Last name is required");
+        }
+
+        if (!isValidName(request.getLastName())) {
+            throw new ValidationException(
+                    String.format("Invalid last name. Must be %d-%d characters, letters and spaces only.",
                             MIN_NAME_LENGTH, MAX_NAME_LENGTH));
         }
 
