@@ -4,7 +4,7 @@ services:
     name: scorebridge-backend
     runtime: docker
     plan: free
-    dockerfilePath: ./Dockerfile.backend
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: PORT
         value: 8080
