@@ -1,0 +1,127 @@
+##############################
+## Python ML Service
+## ScoreBridge Project
+##############################
+
+### Python Cache ###
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+### Virtual Environments ###
+venv/
+env/
+ENV/
+.venv/
+.env/
+virtualenv/
+
+### Distribution / Packaging ###
+dist/
+build/
+*.egg-info/
+.eggs/
+.Python
+pip-wheel-metadata/
+*.egg
+MANIFEST
+
+### PyInstaller ###
+*.manifest
+*.spec
+
+### Installer Logs ###
+pip-log.txt
+pip-delete-this-directory.txt
+
+### Unit Test / Coverage ###
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+### Jupyter Notebook ###
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+### IPython ###
+profile_default/
+ipython_config.py
+
+### Environment Variables ###
+.env
+.env.local
+.env.*.local
+
+### Flask ###
+instance/
+.webassets-cache
+flask_session/
+
+### Logs ###
+*.log
+logs/
+
+### IDE ###
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+### Operating System ###
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+### Trained Models (Backups) ###
+# Uncomment to ignore all trained models:
+# model/*.pkl
+# model/*.h5
+# model/*.pt
+# model/*.pth
+model/*.bak
+model/*.old
+model/*.backup
+
+### Training Data (Large Files) ###
+# Uncomment if you have large datasets:
+# data/
+# datasets/
+# *.csv
+*.csv.bak
+*.csv.old
+
+### Temporary Files ###
+*.tmp
+*.temp
+*.cache
+*.bak
+*.backup
+
+### ML Framework Specific ###
+# TensorFlow
+*.ckpt
+*.pb
+*.pbtxt
+
+# PyTorch
+*.pt
+*.pth
+
+# Scikit-learn (keeping .pkl for now)
+# *.pkl
+
+### Optional: Uncomment if needed ###
+# notebooks/
+# experiments/
+# checkpoints/
