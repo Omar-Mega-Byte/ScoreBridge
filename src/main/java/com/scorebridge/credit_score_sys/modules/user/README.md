@@ -249,7 +249,7 @@ Authorization: Bearer {token}
 - **Max Age**: 3600 seconds
 
 ### Protected Endpoints
-All endpoints under `/api/data/**`, `/api/scoring/**`, and `/api/reports/**` require authentication.
+All endpoints under `/api/data/**` and `/api/scoring/**` require authentication.
 
 ## Database Schema
 
@@ -388,10 +388,10 @@ The system evaluates password strength with the following criteria:
 - Links calculated scores to user accounts
 - Enables score history tracking per user
 
-### With Report Module
-- Authenticates users requesting credit reports
-- Ensures users can only access their own reports
-- Links reports to user accounts
+### With Data Ingestion Module
+- Authenticates users submitting financial data
+- Ensures users can only access their own financial profiles
+- Links financial accounts and transactions to user accounts
 
 ## Configuration
 
