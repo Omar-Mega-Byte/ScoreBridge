@@ -56,7 +56,7 @@ logging:
 
 # JWT Configuration
 jwt:
-  secret: ${JWT_SECRET:7c3309bf8454a00d026334252b6dd59ab3a67aa88c1b60b3350761cbcc8313741a16ed4e}
+  secret: ${JWT_SECRET:}
   expiration: ${JWT_EXPIRATION_MS:86400000}
 
 # CORS Configuration
