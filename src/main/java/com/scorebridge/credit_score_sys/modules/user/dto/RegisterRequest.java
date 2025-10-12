@@ -23,12 +23,20 @@ import lombok.NoArgsConstructor;
 public class RegisterRequest {
 
     /**
-     * The user's full name.
+     * The user's first name.
      */
-    @Schema(description = "User's full name", example = "John Doe", required = true)
-    @NotBlank(message = "Name is required")
-    @Size(min = 2, max = 50, message = "Name should be between 2 and 50 characters")
-    private String name;
+    @Schema(description = "User's first name", example = "John", required = true)
+    @NotBlank(message = "First name is required")
+    @Size(min = 2, max = 50, message = "First name should be between 2 and 50 characters")
+    private String firstName;
+
+    /**
+     * The user's last name.
+     */
+    @Schema(description = "User's last name", example = "Doe", required = true)
+    @NotBlank(message = "Last name is required")
+    @Size(min = 2, max = 50, message = "Last name should be between 2 and 50 characters")
+    private String lastName;
 
     /**
      * The user's email address. Must be unique in the system.
@@ -37,6 +45,13 @@ public class RegisterRequest {
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
     private String email;
+
+    /**
+     * The user's phone number (optional).
+     */
+    @Schema(description = "User's phone number", example = "+1234567890", required = false)
+    @Size(max = 20, message = "Phone number should not exceed 20 characters")
+    private String phoneNumber;
 
     /**
      * The user's password. Should be strong and secure.

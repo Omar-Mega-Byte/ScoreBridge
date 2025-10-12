@@ -99,5 +99,11 @@ public class JwtResponse {
          */
         @Schema(description = "User's email address", example = "john.doe@example.com")
         private String email;
+
+        /**
+         * The user's phone number.
+         */
+        @Schema(description = "User's phone number", example = "+1234567890")
+        private String phoneNumber;
     }
 }
