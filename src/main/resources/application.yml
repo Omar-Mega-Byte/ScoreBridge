@@ -1,49 +1,76 @@
+# ======================================
+# ScoreBridge Application Configuration
+# ======================================
+# Uses environment variables from .env file
+# Default values provided for development
+
+server:
+  port: ${SERVER_PORT:8080}
+
 spring:
   application:
-    name: credit_score_sys
+    name: ${SPRING_APPLICATION_NAME:credit_score_sys}
 
+  # Database Configuration
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:scorebridge}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  
+  # H2 Console (Development only)
   h2:
     console:
-      enabled: true
-      path: /h2-console
+      enabled: ${SPRING_H2_CONSOLE_ENABLED:true}
+      path: ${SPRING_H2_CONSOLE_PATH:/h2-console}
+  
+  # JPA Configuration
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
-    database-platform: org.hibernate.dialect.H2Dialect
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:false}
+    database-platform: ${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}
+    properties:
+      hibernate:
+        '[format_sql]': true
+  
+  # Application Behavior
   main:
-    banner-mode: off # removes the Spring banner
+    banner-mode: ${SPRING_MAIN_BANNER_MODE:off}
+  
+  # Console Output
   output:
     ansi:
-      enabled: always # enable colors in logs
+      enabled: ${SPRING_OUTPUT_ANSI_ENABLED:always}
 
+# Logging Configuration
 logging:
   level:
-    root: INFO # default log level
-    org.springframework: INFO
-    org.hibernate.SQL: OFF
-    org.hibernate.type.descriptor.sql.BasicBinder: OFF
+    root: ${LOGGING_LEVEL_ROOT:INFO}
+    '[org.springframework]': ${LOGGING_LEVEL_SPRING:INFO}
+    '[org.hibernate.SQL]': ${LOGGING_LEVEL_HIBERNATE_SQL:OFF}
+    '[org.hibernate.type.descriptor.sql.BasicBinder]': ${LOGGING_LEVEL_HIBERNATE_TYPE:OFF}
+    '[com.scorebridge]': ${LOGGING_LEVEL_SCOREBRIDGE:DEBUG}
   pattern:
-    console: "%d{HH:mm:ss} %-5level %logger{36} - %msg%n"
+    console: "%d{HH:mm:ss.SSS} %highlight(%-5level) %cyan(%logger{36}) - %msg%n"
 
 # JWT Configuration
 jwt:
-  secret: "7c3309bf8454a00d026334252b6dd59ab3a67aa88c1b60b3350761cbcc8313741a16ed4e"
-  expiration: 86400000 # 24 hours in milliseconds
+  secret: ${JWT_SECRET:7c3309bf8454a00d026334252b6dd59ab3a67aa88c1b60b3350761cbcc8313741a16ed4e}
+  expiration: ${JWT_EXPIRATION_MS:86400000}
+
+# CORS Configuration
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:5173}
 
 # Swagger/OpenAPI Configuration
 springdoc:
   api-docs:
     path: /v3/api-docs
-    enabled: true
+    enabled: ${SPRINGDOC_API_DOCS_ENABLED:true}
   swagger-ui:
-    path: /swagger-ui.html
-    enabled: true
+    path: ${SPRINGDOC_SWAGGER_UI_PATH:/swagger-ui.html}
+    enabled: ${SPRINGDOC_SWAGGER_UI_ENABLED:true}
     operations-sorter: method
     tags-sorter: alpha
     display-request-duration: true
@@ -57,3 +84,12 @@ springdoc:
   default-produces-media-type: application/json
   cache:
     disabled: false
+
+# ML Model Service Configuration
+ml:
+  service:
+    url: ${ML_SERVICE_URL:http://localhost:5000}
+    predict-endpoint: ${ML_SERVICE_PREDICT_ENDPOINT:/predict}
+    timeout-seconds: ${ML_SERVICE_TIMEOUT_SECONDS:10}
+    max-retries: ${ML_SERVICE_MAX_RETRIES:3}
+    fallback-enabled: ${ML_SERVICE_FALLBACK_ENABLED:true}
