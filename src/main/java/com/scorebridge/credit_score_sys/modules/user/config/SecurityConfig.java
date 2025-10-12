@@ -120,6 +120,7 @@ public class SecurityConfig {
         /**
          * Configures CORS (Cross-Origin Resource Sharing) settings for the application.
          * Reads allowed origins from environment variable (cors.allowed-origins).
+         * Supports wildcard patterns for flexible origin matching.
          *
          * @return the CorsConfigurationSource bean
          */
@@ -129,23 +130,18 @@ public class SecurityConfig {
 
                 // Parse allowed origins from environment variable (comma-separated)
                 List<String> origins = Arrays.asList(allowedOrigins.split(","));
-                configuration.setAllowedOrigins(origins);
+                
+                // Use setAllowedOriginPatterns to support wildcards with credentials
+                configuration.setAllowedOriginPatterns(origins);
 
                 // Allow common HTTP methods
                 configuration.setAllowedMethods(Arrays.asList(
                                 "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 
-                // Allow common headers
-                configuration.setAllowedHeaders(Arrays.asList(
-                                "Authorization",
-                                "Content-Type",
-                                "X-Requested-With",
-                                "Accept",
-                                "Origin",
-                                "Access-Control-Request-Method",
-                                "Access-Control-Request-Headers"));
+                // Allow all headers (for Swagger and API clients)
+                configuration.setAllowedHeaders(List.of("*"));
 
-                // Allow credentials
+                // Allow credentials (required for JWT)
                 configuration.setAllowCredentials(true);
 
                 // Expose Authorization header
