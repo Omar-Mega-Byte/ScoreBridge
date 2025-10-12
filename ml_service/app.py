@@ -161,6 +161,19 @@ def determine_weights():
         'delta': 0.20   # Savings stability
     }
 
+@app.route('/', methods=['GET'])
+def root():
+    """Root endpoint - API information."""
+    return jsonify({
+        'name': 'ScoreBridge ML API',
+        'version': '1.0',
+        'status': 'online',
+        'endpoints': {
+            '/health': 'GET - Health check',
+            '/predict': 'POST - Predict credit score'
+        }
+    }), 200
+
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint."""
