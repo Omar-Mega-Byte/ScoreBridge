@@ -1,0 +1,78 @@
+##############################
+## React + Vite Frontend
+## ScoreBridge Project
+##############################
+
+### Dependencies ###
+node_modules/
+.pnp/
+.pnp.js
+
+### Build Output ###
+dist/
+dist-ssr/
+build/
+.next/
+out/
+
+### Environment Variables ###
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.local
+
+### Vite ###
+.vite/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+### Testing ###
+coverage/
+.nyc_output/
+
+### Logs ###
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+### Editor Directories ###
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+### Operating System ###
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+### Temporary Files ###
+*.tmp
+*.temp
+*.cache
+*.bak
+*.backup
+
+### ESLint ###
+.eslintcache
+
+### TypeScript ###
+*.tsbuildinfo
+
+### Optional: Uncomment if needed ###
+# .storybook-static/
+# playwright-report/
+# test-results/
