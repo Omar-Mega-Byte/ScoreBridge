@@ -1,0 +1,13 @@
+# Nixpacks configuration for ML Service
+# Force Python 3.11 for compatibility with pandas/numpy
+[phases.setup]
+nixPkgs = ["python311", "gcc"]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
+
+[start]
+cmd = "python app.py"
+
+[variables]
+NIXPACKS_PYTHON_VERSION = "3.11"
