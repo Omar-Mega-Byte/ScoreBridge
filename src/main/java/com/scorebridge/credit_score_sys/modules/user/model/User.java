@@ -43,10 +43,16 @@ public class User {
     private Long id;
 
     /**
-     * Full name of the user.
+     * First name of the user.
      */
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+
+    /**
+     * Last name of the user.
+     */
+    @Column(nullable = false)
+    private String lastName;
 
     /**
      * Email address of the user. Used as the username for authentication.
@@ -54,6 +60,12 @@ public class User {
      */
     @Column(nullable = false, unique = true)
     private String email;
+
+    /**
+     * Phone number of the user (optional).
+     */
+    @Column(length = 20)
+    private String phoneNumber;
 
     /**
      * BCrypt hashed password for user authentication.
