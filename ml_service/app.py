@@ -274,6 +274,9 @@ if __name__ == '__main__':
         logger.info("Run: python train_model.py")
         exit(1)
     
+    # Get port from environment variable (for deployment)
+    port = int(os.environ.get('PORT', 5000))
+    
     # Start Flask app
-    logger.info("Starting Flask API server on http://localhost:5000")
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    logger.info(f"Starting Flask API server on port {port}")
+    app.run(host='0.0.0.0', port=port, debug=False)
