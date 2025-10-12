@@ -71,8 +71,10 @@ public class AuthService {
 
         // Create new user
         User user = new User();
-        user.setName(request.getName().trim());
+        user.setFirstName(request.getFirstName().trim());
+        user.setLastName(request.getLastName().trim());
         user.setEmail(request.getEmail().trim().toLowerCase());
+        user.setPhoneNumber(request.getPhoneNumber() != null ? request.getPhoneNumber().trim() : null);
         user.setHashedPassword(passwordEncoder.encode(request.getPassword()));
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
@@ -232,8 +234,9 @@ public class AuthService {
     private JwtResponse buildJwtResponse(User user, String token) {
         JwtResponse.UserInfo userInfo = JwtResponse.UserInfo.builder()
                 .id(user.getId())
-                .name(user.getName())
+                .name(user.getFirstName() + " " + user.getLastName())
                 .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
                 .build();
 
         return JwtResponse.builder()

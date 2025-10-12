@@ -152,12 +152,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         /**
-         * Returns the user's name.
+         * Returns the user's full name.
          *
-         * @return the user's name
+         * @return the user's full name
          */
         public String getName() {
-            return user.getName();
+            return user.getFirstName() + " " + user.getLastName();
         }
 
         /**
@@ -167,6 +167,15 @@ public class CustomUserDetailsService implements UserDetailsService {
          */
         public String getEmail() {
             return user.getEmail();
+        }
+
+        /**
+         * Returns the user's phone number.
+         *
+         * @return the user's phone number
+         */
+        public String getPhoneNumber() {
+            return user.getPhoneNumber();
         }
     }
 }
