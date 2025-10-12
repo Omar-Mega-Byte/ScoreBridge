@@ -4,7 +4,7 @@
 
 ### **AI-Driven Financial Reliability for the Invisible Economy**
 
-[![Hackathon Project](https://img.shields.io/badge/🏆-Hackathon_Project-ff6b6b?style=for-the-badge)](https://github.com/shahdkh2288/ScoreBridge_HackNomics)
+[![Hackathon Project](https://img.shields.io/badge/🏆-Hackathon_Project-ff6b6b?style=for-the-badge)](https://github.com/Omar-Mega-Byte/ScoreBridge_HackNomics)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3.5-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![React](https://img.shields.io/badge/React-18.2-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![Python ML](https://img.shields.io/badge/Python_ML-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
@@ -301,27 +301,7 @@ Try these scenarios for testing:
 - [ ] 🗄️ PostgreSQL migration for production
 - [ ] 🐳 Docker Compose setup
 - [ ] ☸️ Kubernetes deployment configurations
-
----
-
-## 👥 **Team**
-
-<table>
-  <tr>
-    <td align="center">
-      <b>Shahd Khaled</b><br>
-      Full-Stack Developer<br>
-      <i>Backend & ML Integration</i>
-    </td>
-    <td align="center">
-      <b>Omar Ahmed</b><br>
-      Full-Stack Developer<br>
-      <i>Frontend & UI/UX</i>
-    </td>
-  </tr>
-</table>
-
----
+- [ ] 🔍 Advanced analytics dashboard for admins
 
 ## 📝 **License**
 
@@ -338,11 +318,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## � **Contact**
+## 📞 **Contact**
 
-- 🌐 **GitHub**: [shahdkh2288/ScoreBridge_HackNomics](https://github.com/shahdkh2288/ScoreBridge_HackNomics)
+- 🌐 **GitHub**: [Omar-Mega-Byte/ScoreBridge_HackNomics](https://github.com/Omar-Mega-Byte/ScoreBridge_HackNomics)
 - 📧 **Email**: contact@scorebridge.dev
-- 💬 **Issues**: [Report a bug or request a feature](https://github.com/shahdkh2288/ScoreBridge_HackNomics/issues)
+- 💬 **Issues**: [Report a bug or request a feature](https://github.com/Omar-Mega-Byte/ScoreBridge_HackNomics/issues)
 
 ---
 
