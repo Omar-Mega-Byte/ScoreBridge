@@ -130,7 +130,7 @@ public class SecurityConfig {
 
                 // Parse allowed origins from environment variable (comma-separated)
                 List<String> origins = Arrays.asList(allowedOrigins.split(","));
-                
+
                 // Use setAllowedOriginPatterns to support wildcards with credentials
                 configuration.setAllowedOriginPatterns(origins);
 

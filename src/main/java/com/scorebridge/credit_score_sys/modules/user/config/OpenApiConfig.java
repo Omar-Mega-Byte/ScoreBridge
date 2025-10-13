@@ -38,7 +38,8 @@ public class OpenApiConfig {
         OpenAPI openAPI = new OpenAPI()
                 .info(new Info()
                         .title("ScoreBridge Credit Score System API")
-                        .description("A comprehensive credit scoring system API that provides user management, credit scoring, reporting, and data ingestion capabilities.")
+                        .description(
+                                "A comprehensive credit scoring system API that provides user management, credit scoring, reporting, and data ingestion capabilities.")
                         .version("v1.0.0")
                         .contact(new Contact()
                                 .name("ScoreBridge Team")
@@ -53,13 +54,11 @@ public class OpenApiConfig {
             // Production environment
             openAPI.servers(List.of(
                     new Server().url(productionUrl).description("Production Server"),
-                    new Server().url("http://localhost:" + serverPort).description("Development Server")
-            ));
+                    new Server().url("http://localhost:" + serverPort).description("Development Server")));
         } else {
             // Development environment
             openAPI.servers(List.of(
-                    new Server().url("http://localhost:" + serverPort).description("Development Server")
-            ));
+                    new Server().url("http://localhost:" + serverPort).description("Development Server")));
         }
 
         return openAPI;
