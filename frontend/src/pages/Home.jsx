@@ -69,8 +69,8 @@ const Home = () => {
 
             {/* Feature 2 */}
             <div className="card group hover:scale-105 transition-transform duration-200">
-              <div className="bg-success-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4 group-hover:bg-success-600 transition-colors">
-                <Shield className="text-success-600 group-hover:text-white" size={28} />
+              <div className="bg-primary-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary-600 transition-colors">
+                <Shield className="text-primary-600 group-hover:text-white" size={28} />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 100% Transparent
@@ -82,8 +82,8 @@ const Home = () => {
 
             {/* Feature 3 */}
             <div className="card group hover:scale-105 transition-transform duration-200">
-              <div className="bg-warning-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4 group-hover:bg-warning-600 transition-colors">
-                <BarChart3 className="text-warning-600 group-hover:text-white" size={28} />
+              <div className="bg-primary-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary-600 transition-colors">
+                <BarChart3 className="text-primary-600 group-hover:text-white" size={28} />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 Track Progress
@@ -95,8 +95,8 @@ const Home = () => {
 
             {/* Feature 4 */}
             <div className="card group hover:scale-105 transition-transform duration-200">
-              <div className="bg-danger-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4 group-hover:bg-danger-600 transition-colors">
-                <Users className="text-danger-600 group-hover:text-white" size={28} />
+              <div className="bg-primary-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary-600 transition-colors">
+                <Users className="text-primary-600 group-hover:text-white" size={28} />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 Fair for Everyone
@@ -121,8 +121,8 @@ const Home = () => {
 
             {/* Feature 6 */}
             <div className="card group hover:scale-105 transition-transform duration-200">
-              <div className="bg-success-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4 group-hover:bg-success-600 transition-colors">
-                <ArrowRight className="text-success-600 group-hover:text-white" size={28} />
+              <div className="bg-primary-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary-600 transition-colors">
+                <ArrowRight className="text-primary-600 group-hover:text-white" size={28} />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 Instant Results
