@@ -105,7 +105,7 @@ public class MlModelClient {
         double gamma = 0.20;
         double delta = 0.20;
 
-        // Calculate SBI: normalize to 300-850 range
+        // Calculate ScoreBridge Index (SBI): normalize to 300-850 range
         double normalizedScore = (alpha * paymentScore + beta * incomeScore +
                 gamma * transactionScore + delta * savingsScore);
         int sbiScore = (int) (300 + (normalizedScore / 100.0) * 550);

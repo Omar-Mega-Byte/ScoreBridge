@@ -95,7 +95,7 @@ public class ScoringService {
                 .confidenceLevel(mlResponse.getConfidenceLevel())
                 .build();
 
-        log.info("Score calculation completed. SBI Score: {}", response.getSbiScore());
+        log.info("Score calculation completed. ScoreBridge Index (SBI) Score: {}", response.getSbiScore());
         return response;
     }
 

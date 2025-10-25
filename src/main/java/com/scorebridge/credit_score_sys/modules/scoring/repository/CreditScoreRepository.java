@@ -53,7 +53,7 @@ public interface CreditScoreRepository extends JpaRepository<CreditScore, Long> 
     List<CreditScore> findByScoreCategory(String scoreCategory);
 
     /**
-     * Get average SBI score for a user.
+     * Get average ScoreBridge Index (SBI) score for a user.
      */
     @Query("SELECT AVG(cs.sbiScore) FROM CreditScore cs WHERE cs.user = :user")
     Optional<Double> getAverageSbiScoreByUser(@Param("user") User user);
