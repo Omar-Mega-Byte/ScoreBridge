@@ -1,4 +1,5 @@
 import api from './api';
+import { mlService } from './mlService';
 
 // ==================== AUTHENTICATION ====================
 export const authService = {
@@ -142,9 +143,13 @@ export const userService = {
   }
 };
 
+// Export ML service
+export { mlService };
+
 export default {
   auth: authService,
   scoring: scoringService,
   dataIngestion: dataIngestionService,
-  user: userService
+  user: userService,
+  ml: mlService
 };
