@@ -9,9 +9,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="col-span-1">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-primary-600 p-2 rounded-lg">
-                <TrendingUp className="text-white" size={20} />
-              </div>
+              <img src="/logo.png" alt="ScoreBridge Logo" className="h-8 w-8 object-contain" />
               <span className="text-xl font-bold text-white">
                 Score<span className="text-primary-400">Bridge</span>
               </span>
@@ -35,29 +33,51 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-primary-400 transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-primary-400 transition-colors">How It Works</a></li>
-              <li><a href="#" className="hover:text-primary-400 transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-primary-400 transition-colors">Terms of Service</a></li>
+              <li><Link to="/about" className="hover:text-primary-400 transition-colors">About Us</Link></li>
+              <li><Link to="/how-it-works" className="hover:text-primary-400 transition-colors">How It Works</Link></li>
+              <li><a href="https://github.com/Omar-Mega-Byte/ScoreBridge_HackNomics" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">GitHub Repository</a></li>
+              <li><Link to="/privacy" className="hover:text-primary-400 transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
 
           {/* Connect */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Connect</h3>
-            <div className="flex space-x-4">
-              <a href="#" className="hover:text-primary-400 transition-colors">
-                <Github size={20} />
-              </a>
-              <a href="#" className="hover:text-primary-400 transition-colors">
-                <Linkedin size={20} />
-              </a>
-              <a href="#" className="hover:text-primary-400 transition-colors">
-                <Mail size={20} />
-              </a>
+            <h3 className="text-white font-semibold mb-4">Connect with Team</h3>
+            <div className="space-y-3">
+              {/* Omar */}
+              <div>
+                <p className="text-sm font-medium text-gray-400 mb-1">Omar Elrfaay</p>
+                <div className="flex space-x-3">
+                  <a href="https://github.com/Omar-Mega-Byte" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors" title="GitHub">
+                    <Github size={18} />
+                  </a>
+                  <a href="https://www.linkedin.com/in/omar-elrfaay/" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors" title="LinkedIn">
+                    <Linkedin size={18} />
+                  </a>
+                  <a href="mailto:omar.tolis2004@gmail.com" className="hover:text-primary-400 transition-colors" title="Email">
+                    <Mail size={18} />
+                  </a>
+                </div>
+              </div>
+              
+              {/* Shahd */}
+              <div>
+                <p className="text-sm font-medium text-gray-400 mb-1">Shahd Khaled</p>
+                <div className="flex space-x-3">
+                  <a href="https://github.com/shahdkh2288" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors" title="GitHub">
+                    <Github size={18} />
+                  </a>
+                  <a href="https://www.linkedin.com/in/shahd-khaled-2b6897247/" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors" title="LinkedIn">
+                    <Linkedin size={18} />
+                  </a>
+                  <a href="mailto:kshahd528@gmail.com" className="hover:text-primary-400 transition-colors" title="Email">
+                    <Mail size={18} />
+                  </a>
+                </div>
+              </div>
             </div>
-            <p className="text-sm mt-4">
-              Built for HackNomics 2025
+            <p className="text-sm mt-4 text-primary-400 font-medium">
+              🏆 Built for HackNomics 2025
             </p>
           </div>
         </div>

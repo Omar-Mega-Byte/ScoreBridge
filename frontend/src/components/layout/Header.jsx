@@ -1,12 +1,23 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, TrendingUp, User, LogOut, LayoutDashboard } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, TrendingUp, User, LogOut, LayoutDashboard, ChevronDown, Sparkles, Calculator as CalcIcon, Target } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import useAuthStore from '../../store/authStore';
+import ThemeSwitcher from '../common/ThemeSwitcher';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { isAuthenticated, user, logout } = useAuthStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLogout = async () => {
     await logout();
@@ -14,15 +25,13 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-40">
-      <nav className="container mx-auto px-4 py-4">
+    <header className={`bg-white shadow-md sticky top-0 z-40 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'}`}>
+      <nav className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-primary-600 p-2 rounded-lg">
-              <TrendingUp className="text-white" size={24} />
-            </div>
-            <span className="text-2xl font-bold text-gray-800">
+            <img src="/logo.png" alt="ScoreBridge Logo" className={`object-contain transition-all duration-300 ${isScrolled ? 'h-8 w-8' : 'h-10 w-10'}`} />
+            <span className={`font-bold text-gray-800 transition-all duration-300 ${isScrolled ? 'text-xl' : 'text-2xl'}`}>
               Score<span className="text-primary-600">Bridge</span>
             </span>
           </Link>
@@ -37,6 +46,32 @@ const Header = () => {
                 <Link to="/calculate-score" className="text-gray-700 hover:text-primary-600 transition-colors">
                   Calculate Score
                 </Link>
+                
+                {/* AI Features Dropdown */}
+                <div className="relative group">
+                  <button className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors">
+                    <Sparkles size={18} />
+                    <span>AI Features</span>
+                    <ChevronDown size={16} />
+                  </button>
+                  <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 z-50">
+                    <Link to="/recommendations" className="block px-4 py-2 text-gray-700 hover:bg-purple-50 flex items-center gap-2">
+                      <Target size={16} className="text-purple-600" />
+                      <div>
+                        <div className="font-medium text-sm">Recommendations</div>
+                        <div className="text-xs text-gray-500">AI-powered advice</div>
+                      </div>
+                    </Link>
+                    <Link to="/score-simulator" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 flex items-center gap-2">
+                      <CalcIcon size={16} className="text-blue-600" />
+                      <div>
+                        <div className="font-medium text-sm">Score Simulator</div>
+                        <div className="text-xs text-gray-500">What-if scenarios</div>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+                
                 <Link to="/score-history" className="text-gray-700 hover:text-primary-600 transition-colors">
                   History
                 </Link>
@@ -44,13 +79,21 @@ const Header = () => {
                   Accounts
                 </Link>
                 
+                {/* Theme Switcher */}
+                <ThemeSwitcher />
+                
                 {/* User Dropdown */}
                 <div className="relative group">
                   <button className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors">
                     <User size={20} />
                     <span>{user?.name || 'User'}</span>
                   </button>
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200">
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200">
+                    {/* Hackathon Notice */}
+                    <div className="px-4 py-2 bg-gradient-to-r from-primary-50 to-warning-50 border-l-4 border-primary-600 mb-2">
+                      <p className="text-xs font-semibold text-primary-700">🏆 HackNomics 2025</p>
+                      <p className="text-xs text-gray-600 mt-1">Some features will be enhanced after the hackathon!</p>
+                    </div>
                     <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                       My Profile
                     </Link>
@@ -72,6 +115,10 @@ const Header = () => {
                 <Link to="/calculate-score" className="text-gray-700 hover:text-primary-600 transition-colors">
                   Calculate Score
                 </Link>
+                
+                {/* Theme Switcher */}
+                <ThemeSwitcher />
+                
                 <Link to="/login" className="text-gray-700 hover:text-primary-600 transition-colors">
                   Login
                 </Link>
@@ -102,6 +149,17 @@ const Header = () => {
                 <Link to="/calculate-score" className="block py-2 text-gray-700 hover:text-primary-600">
                   Calculate Score
                 </Link>
+                <div className="py-2 border-l-4 border-purple-500 pl-3 my-2">
+                  <p className="text-xs font-semibold text-purple-600 mb-2 flex items-center gap-1">
+                    <Sparkles size={14} /> AI Features
+                  </p>
+                  <Link to="/recommendations" className="block py-1 text-gray-700 hover:text-primary-600 text-sm">
+                    → AI Recommendations
+                  </Link>
+                  <Link to="/score-simulator" className="block py-1 text-gray-700 hover:text-primary-600 text-sm">
+                    → Score Simulator
+                  </Link>
+                </div>
                 <Link to="/score-history" className="block py-2 text-gray-700 hover:text-primary-600">
                   History
                 </Link>
