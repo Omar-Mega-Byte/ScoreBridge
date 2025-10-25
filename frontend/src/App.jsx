@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import useAuthStore from './store/authStore';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 // Layout
 import MainLayout from './components/layout/MainLayout';
@@ -12,10 +13,17 @@ import Register from './pages/auth/Register';
 import Dashboard from './pages/Dashboard';
 import ScoreCalculator from './pages/scoring/ScoreCalculator';
 import ScoreHistory from './pages/scoring/ScoreHistory';
+import Recommendations from './pages/scoring/Recommendations';
+import ScoreSimulator from './pages/scoring/ScoreSimulator';
 import FinancialProfile from './pages/data-ingestion/FinancialProfile';
 import Accounts from './pages/data-ingestion/Accounts';
 import Transactions from './pages/data-ingestion/Transactions';
 import Profile from './pages/user/Profile';
+
+// Static Pages
+import AboutUs from './pages/static/AboutUs';
+import HowItWorks from './pages/static/HowItWorks';
+import PrivacyPolicy from './pages/static/PrivacyPolicy';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -31,12 +39,17 @@ const GuestRoute = ({ children }) => {
 
 function App() {
   return (
-    <>
+    <ThemeProvider>
       <HackathonBanner />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
+          
+          {/* Static Pages */}
+          <Route path="about" element={<AboutUs />} />
+          <Route path="how-it-works" element={<HowItWorks />} />
+          <Route path="privacy" element={<PrivacyPolicy />} />
         
         {/* Guest Only Routes */}
         <Route path="login" element={
@@ -64,6 +77,16 @@ function App() {
             <ScoreHistory />
           </ProtectedRoute>
         } />
+        <Route path="recommendations" element={
+          <ProtectedRoute>
+            <Recommendations />
+          </ProtectedRoute>
+        } />
+        <Route path="score-simulator" element={
+          <ProtectedRoute>
+            <ScoreSimulator />
+          </ProtectedRoute>
+        } />
         <Route path="financial-profile" element={
           <ProtectedRoute>
             <FinancialProfile />
@@ -89,7 +112,7 @@ function App() {
       {/* 404 */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
-    </>
+    </ThemeProvider>
   );
 }
 
