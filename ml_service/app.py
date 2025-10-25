@@ -215,7 +215,7 @@ def predict():
         # Get weights
         weights = determine_weights()
         
-        # Calculate SBI using weighted formula
+        # Calculate ScoreBridge Index (SBI) using weighted formula
         # SBI = αP + βI + γT + δS
         weighted_score = (
             weights['alpha'] * engineered['payment_consistency'] +
@@ -279,6 +279,370 @@ def not_found(error):
 def internal_error(error):
     """Handle 500 errors."""
     return jsonify({'error': 'Internal server error'}), 500
+
+@app.route('/recommendations', methods=['POST'])
+def get_recommendations():
+    """Generate personalized recommendations based on financial data and score."""
+    
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+        
+        logger.info("Received recommendations request")
+        
+        # Extract key financial metrics
+        payment_consistency = data.get('paymentConsistency', 0)
+        income_reliability = data.get('incomeReliability', 0)
+        transaction_patterns = data.get('transactionPatterns', 0)
+        savings_stability = data.get('savingsStability', 0)
+        current_score = data.get('currentScore', 600)
+        
+        recommendations = []
+        
+        # Payment consistency recommendations
+        if payment_consistency < 70:
+            recommendations.append({
+                'category': 'Payment Consistency',
+                'priority': 'high',
+                'title': 'Improve Payment Timeliness',
+                'description': 'Your payment history needs attention. Set up automatic payments to avoid missed deadlines.',
+                'impact': 'Could improve score by 30-50 points',
+                'actions': [
+                    'Enable auto-pay for all credit cards and loans',
+                    'Set up payment reminders 3 days before due dates',
+                    'Create a payment calendar for all obligations'
+                ]
+            })
+        elif payment_consistency < 85:
+            recommendations.append({
+                'category': 'Payment Consistency',
+                'priority': 'medium',
+                'title': 'Maintain Payment Discipline',
+                'description': 'Good payment history! Keep it up to reach excellent status.',
+                'impact': 'Could improve score by 10-20 points',
+                'actions': [
+                    'Continue making on-time payments',
+                    'Review payment schedule monthly',
+                    'Build a 2-month payment buffer'
+                ]
+            })
+        
+        # Income reliability recommendations
+        if income_reliability < 70:
+            recommendations.append({
+                'category': 'Income Reliability',
+                'priority': 'high',
+                'title': 'Stabilize Income Sources',
+                'description': 'Lenders prefer consistent income. Work on building stable income streams.',
+                'impact': 'Could improve score by 25-40 points',
+                'actions': [
+                    'Maintain regular salary deposits in the same account',
+                    'Consider side income from stable sources',
+                    'Document all income sources properly'
+                ]
+            })
+        
+        # Credit utilization recommendations
+        credit_util = data.get('creditUtilizationRatio', 0)
+        if credit_util > 30:
+            recommendations.append({
+                'category': 'Credit Utilization',
+                'priority': 'high',
+                'title': 'Reduce Credit Card Usage',
+                'description': f'Your credit utilization is {credit_util}%. Keep it below 30% for optimal scores.',
+                'impact': 'Could improve score by 40-60 points',
+                'actions': [
+                    'Pay down credit card balances aggressively',
+                    'Request credit limit increases',
+                    'Use debit cards for daily purchases',
+                    f'Target: Reduce utilization to below 30% (currently {credit_util}%)'
+                ]
+            })
+        
+        # Savings and investment recommendations
+        monthly_salary = data.get('monthlyInhandSalary', 1)
+        monthly_balance = data.get('monthlyBalance', 0)
+        investment = data.get('amountInvestedMonthly', 0)
+        
+        if monthly_balance / monthly_salary < 0.3:
+            recommendations.append({
+                'category': 'Savings Stability',
+                'priority': 'high',
+                'title': 'Build Emergency Fund',
+                'description': 'Your savings buffer is low. Build an emergency fund for financial security.',
+                'impact': 'Could improve score by 20-35 points',
+                'actions': [
+                    'Save at least 20% of monthly income',
+                    'Build 3-6 months emergency fund',
+                    'Open a high-yield savings account',
+                    'Automate monthly transfers to savings'
+                ]
+            })
+        
+        if investment / monthly_salary < 0.1:
+            recommendations.append({
+                'category': 'Investment & Planning',
+                'priority': 'medium',
+                'title': 'Start Systematic Investments',
+                'description': 'Regular investments show financial planning and discipline.',
+                'impact': 'Could improve score by 15-25 points',
+                'actions': [
+                    'Start SIP/mutual fund investments (10% of income)',
+                    'Consider retirement planning accounts',
+                    'Diversify investment portfolio',
+                    'Review and increase investments annually'
+                ]
+            })
+        
+        # Debt management
+        emi_ratio = data.get('totalEmiPerMonth', 0) / monthly_salary if monthly_salary > 0 else 0
+        if emi_ratio > 0.4:
+            recommendations.append({
+                'category': 'Debt Management',
+                'priority': 'high',
+                'title': 'Reduce EMI Burden',
+                'description': f'Your EMI to income ratio is {emi_ratio*100:.1f}%. This is high and affects your borrowing capacity.',
+                'impact': 'Could improve score by 30-45 points',
+                'actions': [
+                    'Consider debt consolidation at lower interest',
+                    'Avoid taking new loans until ratio improves',
+                    'Make extra payments towards high-interest debt',
+                    f'Target: Reduce EMI ratio below 40% (currently {emi_ratio*100:.1f}%)'
+                ]
+            })
+        
+        # Credit inquiry recommendations
+        num_inquiries = data.get('numCreditInquiries', 0)
+        if num_inquiries > 3:
+            recommendations.append({
+                'category': 'Credit Inquiries',
+                'priority': 'medium',
+                'title': 'Limit Credit Applications',
+                'description': f'You have {num_inquiries} recent credit inquiries. Too many can hurt your score.',
+                'impact': 'Could improve score by 10-20 points',
+                'actions': [
+                    'Avoid applying for new credit for 6 months',
+                    'Pre-qualify for credit before formal applications',
+                    'Space out credit applications by 3-6 months',
+                    'Only apply for credit you truly need'
+                ]
+            })
+        
+        # Overall improvement plan
+        if current_score < 700:
+            recommendations.append({
+                'category': 'Overall Strategy',
+                'priority': 'high',
+                'title': '90-Day Score Boost Plan',
+                'description': 'Follow this strategic plan to improve your score significantly.',
+                'impact': 'Could improve score by 50-80 points in 3 months',
+                'actions': [
+                    'Week 1-2: Set up all automatic payments',
+                    'Week 3-4: Pay down highest interest debt',
+                    'Month 2: Build emergency savings to 50% of salary',
+                    'Month 3: Start small monthly investments',
+                    'Monitor score monthly and adjust strategy'
+                ]
+            })
+        
+        # Sort by priority
+        priority_order = {'high': 0, 'medium': 1, 'low': 2}
+        recommendations.sort(key=lambda x: priority_order.get(x['priority'], 2))
+        
+        response = {
+            'currentScore': current_score,
+            'recommendations': recommendations,
+            'potentialScore': min(850, current_score + len([r for r in recommendations if r['priority'] == 'high']) * 25),
+            'timeframe': '3-6 months with consistent improvements',
+            'nextReview': 'Review progress in 30 days'
+        }
+        
+        logger.info(f"Generated {len(recommendations)} recommendations")
+        
+        return jsonify(response), 200
+        
+    except Exception as e:
+        logger.error(f"Recommendations error: {str(e)}")
+        return jsonify({'error': f'Recommendations generation failed: {str(e)}'}), 500
+
+@app.route('/simulate', methods=['POST'])
+def simulate_score():
+    """Simulate what-if scenarios for score changes."""
+    
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+        
+        logger.info("Received simulation request")
+        
+        # Get current data
+        current_data = data.get('currentData', {})
+        changes = data.get('changes', {})
+        
+        # Apply changes to create new scenario
+        simulated_data = current_data.copy()
+        simulated_data.update(changes)
+        
+        # Calculate both current and simulated scores
+        current_features, current_engineered = create_feature_vector(current_data)
+        simulated_features, simulated_engineered = create_feature_vector(simulated_data)
+        
+        # Get predictions
+        current_scaled = scaler.transform(current_features)
+        simulated_scaled = scaler.transform(simulated_features)
+        
+        current_prediction = model.predict(current_scaled)[0]
+        simulated_prediction = model.predict(simulated_scaled)[0]
+        
+        current_score = map_score_to_range(current_prediction)
+        simulated_score = map_score_to_range(simulated_prediction)
+        
+        # Calculate weighted scores
+        weights = determine_weights()
+        
+        current_weighted = int(300 + (
+            weights['alpha'] * current_engineered['payment_consistency'] +
+            weights['beta'] * current_engineered['income_reliability'] +
+            weights['gamma'] * current_engineered['transaction_patterns'] +
+            weights['delta'] * current_engineered['savings_stability']
+        ) / 100 * 550)
+        
+        simulated_weighted = int(300 + (
+            weights['alpha'] * simulated_engineered['payment_consistency'] +
+            weights['beta'] * simulated_engineered['income_reliability'] +
+            weights['gamma'] * simulated_engineered['transaction_patterns'] +
+            weights['delta'] * simulated_engineered['savings_stability']
+        ) / 100 * 550)
+        
+        # Convert all numpy types to native Python types for JSON serialization
+        response = {
+            'currentScore': int(current_weighted),
+            'simulatedScore': int(simulated_weighted),
+            'scoreDifference': int(simulated_weighted - current_weighted),
+            'percentageChange': float(((simulated_weighted - current_weighted) / current_weighted * 100) if current_weighted > 0 else 0),
+            'changesApplied': changes,
+            'componentChanges': {
+                'payment': float(float(simulated_engineered['payment_consistency']) - float(current_engineered['payment_consistency'])),
+                'income': float(float(simulated_engineered['income_reliability']) - float(current_engineered['income_reliability'])),
+                'transaction': float(float(simulated_engineered['transaction_patterns']) - float(current_engineered['transaction_patterns'])),
+                'savings': float(float(simulated_engineered['savings_stability']) - float(current_engineered['savings_stability']))
+            },
+            'recommendation': 'positive' if simulated_weighted > current_weighted else 'negative' if simulated_weighted < current_weighted else 'neutral'
+        }
+        
+        score_diff = int(simulated_weighted - current_weighted)
+        logger.info(f"Simulation: {int(current_weighted)} -> {int(simulated_weighted)} ({score_diff:+d} points)")
+        
+        return jsonify(response), 200
+        
+    except Exception as e:
+        logger.error(f"Simulation error: {str(e)}")
+        return jsonify({'error': f'Simulation failed: {str(e)}'}), 500
+
+@app.route('/analyze-spending', methods=['POST'])
+def analyze_spending():
+    """Analyze spending patterns and provide insights."""
+    
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+        
+        logger.info("Received spending analysis request")
+        
+        monthly_salary = data.get('monthlyInhandSalary', 1)
+        monthly_balance = data.get('monthlyBalance', 0)
+        total_emi = data.get('totalEmiPerMonth', 0)
+        investments = data.get('amountInvestedMonthly', 0)
+        
+        # Calculate spending metrics
+        estimated_spending = monthly_salary - monthly_balance - investments
+        emi_ratio = (total_emi / monthly_salary * 100) if monthly_salary > 0 else 0
+        savings_rate = (monthly_balance / monthly_salary * 100) if monthly_salary > 0 else 0
+        investment_rate = (investments / monthly_salary * 100) if monthly_salary > 0 else 0
+        spending_rate = (estimated_spending / monthly_salary * 100) if monthly_salary > 0 else 0
+        
+        # Determine spending health
+        if spending_rate < 50:
+            spending_health = 'Excellent'
+            health_color = 'success'
+        elif spending_rate < 70:
+            spending_health = 'Good'
+            health_color = 'info'
+        elif spending_rate < 85:
+            spending_health = 'Fair'
+            health_color = 'warning'
+        else:
+            spending_health = 'Needs Attention'
+            health_color = 'danger'
+        
+        insights = []
+        
+        # Generate insights
+        if emi_ratio > 40:
+            insights.append({
+                'type': 'warning',
+                'title': 'High Debt Burden',
+                'message': f'EMI consumes {emi_ratio:.1f}% of income. Recommended: below 40%'
+            })
+        
+        if savings_rate < 20:
+            insights.append({
+                'type': 'warning',
+                'title': 'Low Savings Rate',
+                'message': f'Saving only {savings_rate:.1f}% of income. Target: 20-30%'
+            })
+        else:
+            insights.append({
+                'type': 'success',
+                'title': 'Good Savings Habit',
+                'message': f'Great! You\'re saving {savings_rate:.1f}% of income'
+            })
+        
+        if investment_rate < 10:
+            insights.append({
+                'type': 'info',
+                'title': 'Investment Opportunity',
+                'message': 'Consider investing 10-15% of income for long-term wealth'
+            })
+        
+        response = {
+            'spendingHealth': spending_health,
+            'healthColor': health_color,
+            'metrics': {
+                'emiRatio': round(emi_ratio, 1),
+                'savingsRate': round(savings_rate, 1),
+                'investmentRate': round(investment_rate, 1),
+                'spendingRate': round(spending_rate, 1)
+            },
+            'breakdown': {
+                'income': monthly_salary,
+                'emi': total_emi,
+                'investments': investments,
+                'savings': monthly_balance,
+                'estimatedSpending': estimated_spending
+            },
+            'insights': insights,
+            'recommendations': [
+                'Track expenses using a budgeting app',
+                'Follow 50/30/20 rule: 50% needs, 30% wants, 20% savings',
+                'Review subscriptions and cut unused services',
+                'Set spending alerts on credit cards'
+            ]
+        }
+        
+        logger.info(f"Spending analysis: {spending_health} health")
+        
+        return jsonify(response), 200
+        
+    except Exception as e:
+        logger.error(f"Spending analysis error: {str(e)}")
+        return jsonify({'error': f'Analysis failed: {str(e)}'}), 500
 
 if __name__ == '__main__':
     # Load model files
