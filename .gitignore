@@ -314,3 +314,8 @@ amplify-build-config.json
 TODO.txt
 NOTES.txt
 scratch.txt
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

@@ -1,0 +1,47 @@
+# AWS Elastic Beanstalk ignore file
+# This tells EB what NOT to deploy
+# Anything not listed here WILL be deployed
+
+# Node modules (frontend)
+frontend/node_modules/
+frontend/.next/
+frontend/dist/
+frontend/build/
+
+# Python
+ml_service/__pycache__/
+ml_service/*.pyc
+ml_service/venv/
+ml_service/.venv/
+
+# Maven (but keep target for EB to use)
+# Note: target/ is NOT ignored - EB needs the JAR
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+HELP.md
+README.md
+
+# Config files
+.env
+.env.local
+.env.*.local
+
+# Misc
+*.bak
+*.log
+*.tmp
