@@ -287,6 +287,19 @@ test_data/*.tmp
 ### Kubernetes ###
 # k8s/secrets/  # Uncomment if using Kubernetes
 
+### AWS Elastic Beanstalk ###
+.elasticbeanstalk/
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+*.bak
+.elasticbeanstalk/logs/
+
+### AWS Amplify ###
+amplify/
+.amplify/
+amplify-build-config.json
+
 ##############################
 ## Custom Project Files
 ##############################
