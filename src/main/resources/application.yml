@@ -93,3 +93,50 @@ ml:
     timeout-seconds: ${ML_SERVICE_TIMEOUT_SECONDS:10}
     max-retries: ${ML_SERVICE_MAX_RETRIES:3}
     fallback-enabled: ${ML_SERVICE_FALLBACK_ENABLED:true}
+
+---
+# ======================================
+# AWS Production Profile
+# ======================================
+spring:
+  config:
+    activate:
+      on-profile: aws
+  
+  # Database Configuration for AWS
+  datasource:
+    url: ${RDS_DB_URL:jdbc:h2:mem:scorebridge}
+    username: ${RDS_USERNAME:sa}
+    password: ${RDS_PASSWORD:}
+    driver-class-name: ${RDS_DRIVER:org.h2.Driver}
+  
+  # Disable H2 Console in production
+  h2:
+    console:
+      enabled: false
+  
+  # JPA Configuration for AWS
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database-platform: ${JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}
+  
+  main:
+    banner-mode: off
+
+# Logging for AWS
+logging:
+  level:
+    root: WARN
+    '[com.scorebridge]': INFO
+    '[org.springframework]': WARN
+
+# CORS for AWS
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:*}
+
+# ML Service URL for AWS
+ml:
+  service:
+    url: ${ML_SERVICE_URL:http://scorebridge-ml.us-east-1.elasticbeanstalk.com}
