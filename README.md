@@ -242,23 +242,6 @@ Try these scenarios for testing:
 
 ---
 
-## 🎨 **Screenshots**
-
-<div align="center">
-
-### Dashboard
-*Real-time overview with score trends and account summary*
-
-### Score Calculation
-*Beautiful visualization with component breakdown*
-
-### Profile Management
-*Easy-to-use financial data entry*
-
-</div>
-
----
-
 ## 🎯 **Impact & Vision**
 
 ### **Who We Help:**
