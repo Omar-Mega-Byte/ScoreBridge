@@ -35,7 +35,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li><Link to="/about" className="hover:text-primary-400 transition-colors">About Us</Link></li>
               <li><Link to="/how-it-works" className="hover:text-primary-400 transition-colors">How It Works</Link></li>
-              <li><a href="https://github.com/Omar-Mega-Byte/ScoreBridge_HackNomics" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">GitHub Repository</a></li>
+              <li><a href="https://github.com/Omar-Mega-Byte/ScoreBridge" target="_blank" rel="noopener noreferrer" className="hover:text-primary-400 transition-colors">GitHub Repository</a></li>
               <li><Link to="/privacy" className="hover:text-primary-400 transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
