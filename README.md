@@ -141,46 +141,43 @@ Score Range: 300-850 (like FICO, but fairer)
 
 ---
 
-## 🚀 **Getting Started**
+## 🚀 **How to Run the Project**
 
 ### **Prerequisites**
-
 - ☕ **Java 21** ([Download](https://adoptium.net/))
 - 📦 **Node.js 18+** ([Download](https://nodejs.org/))
 - 🐍 **Python 3.11+** ([Download](https://www.python.org/))
-- 🛠️ **Maven 3.9+** (usually bundled with Java)
 
-### **Quick Start (3 Steps)**
+### **Quick Setup (3 Terminal Windows)**
 
-#### **1️⃣ Start the ML Service**
-
+**Terminal 1: ML Service**
 ```bash
-cd ml
+cd ml_service
 pip install -r requirements.txt
-python ml_service.py
-# ✅ ML API running on http://localhost:5000
+python app.py
 ```
+✅ ML API: `http://localhost:5000`
 
-#### **2️⃣ Start the Backend**
-
+**Terminal 2: Spring Boot Backend**
 ```bash
-# From project root
+# Windows
+mvnw.cmd spring-boot:run
+
+# Linux/Mac
 ./mvnw spring-boot:run
-# ✅ Backend running on http://localhost:8080
 ```
+✅ Backend API: `http://localhost:8080`
 
-#### **3️⃣ Start the Frontend**
-
+**Terminal 3: React Frontend**
 ```bash
 cd frontend
 npm install
 npm run dev
-# ✅ Frontend running on http://localhost:3000
 ```
+✅ Web App: `http://localhost:3000`
 
-### **🎉 Open Your Browser**
-
-Navigate to **http://localhost:3000** and you're ready to go!
+### **🎉 Ready to Use!**
+Open your browser and go to **http://localhost:3000** to start using ScoreBridge!
 
 ---
 
