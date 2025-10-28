@@ -300,9 +300,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 **Contact**
 
-- 🌐 **GitHub**: [Omar-Mega-Byte/ScoreBridge_HackNomics](https://github.com/Omar-Mega-Byte/ScoreBridge_HackNomics)
+- 🌐 **GitHub**: [Omar-Mega-Byte/ScoreBridge](https://github.com/Omar-Mega-Byte/ScoreBridge)
 - 📧 **Email**: omar.tolis2004@gmail.com
-- 💬 **Issues**: [Report a bug or request a feature](https://github.com/Omar-Mega-Byte/ScoreBridge_HackNomics/issues)
+- 💬 **Issues**: [Report a bug or request a feature](https://github.com/Omar-Mega-Byte/ScoreBridge/issues)
 
 ---
 
